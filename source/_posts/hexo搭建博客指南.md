@@ -103,5 +103,8 @@ hexo new page [页面名]
 - 配置自定义域名至七牛云的CNAME(我使用的是阿里云)
 ![](http://photos.zhangzemiao.com/blog_photos_cnd.jpg)
 
+*注意：配置CNAME时，填写七牛云CNAME值时，后面补上一个"."。*
+
+
 ## 总结
 至此，大部分内容就是这些了。可能会有遗漏。剩下的，就是使用markdown写文章了，我还在边写边学的阶段，努力，后续小细节的东西慢慢补充。推荐一款markdown编辑软件: [haroopad](http://pad.haroopress.com/)，免费的。
