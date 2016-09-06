@@ -90,10 +90,18 @@ hexo new page [页面名]
 
 创建好后，会在source目录生成对应的md文件，后续使用markdown进行编辑，创作了。
 
-## 图库
+## 图库及CDN
 关于图库，网上推荐使用[七牛云](https://portal.qiniu.com)，我刚使用赶脚很好，免费就是好呀。把图片放在七牛云上，然后文章外链使用。
 
 ![](http://photos.zhangzemiao.com/tuku.jpg)
 
+在七牛云的账号中，冲入10元，便可以使用CND了。刚刚客户还打电话过来回访，询问我，为嘛使用七牛云。。。
+- 自定义域名
+![](http://photos.zhangzemiao.com/blog_cnd.jpg)
+- 等待七牛云创建CNAME
+![](http://photos.zhangzemiao.com/blog_qiniuyun_cname.jpg)
+- 配置自定义域名至七牛云的CNAME(我使用的是阿里云)
+![](http://photos.zhangzemiao.com/blog_photos_cnd.jpg)
+
 ## 总结
-至此，大部分内容就是这些了。可能会有遗漏。剩下的，就是使用markdown写文章了，我还在边写边学的阶段，努力，后续小细节的东西慢慢补充。推荐一款markdown编辑软件: [haroopad](http://pad.haroopress.com/)。
+至此，大部分内容就是这些了。可能会有遗漏。剩下的，就是使用markdown写文章了，我还在边写边学的阶段，努力，后续小细节的东西慢慢补充。推荐一款markdown编辑软件: [haroopad](http://pad.haroopress.com/)，免费的。
