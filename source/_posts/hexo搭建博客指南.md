@@ -105,6 +105,16 @@ hexo new page [页面名]
 
 *注意：配置CNAME时，填写七牛云CNAME值时，后面补上一个"."。*
 
+## 跨机器
+应对多台电脑都需要写博客的情况，解决方案，是将整个blog的source放入github库中，我的库在[这里](https://github.com/WaterZhang/blog)，可以参照。
+
+- 在电脑1中，按照教程搭好了hexo博客。
+- 使用git命令将整个文件夹设置成git项目(也可以使用git gui，我先用git命令，然后再用sourcetree提交至github。)
+- 然后在电脑2中，将blog的整个source，下载。你需要准备好git和node.js。再使用hexo命令，初始化hexo，下载主题什么的。当然也可以把"根目录/node_modules"的文件copy到新的电脑。这部分文件是没有同步到github的。
+- 调试，查错，直至ok
+
+*注意，这个blog的source库跟你发布的静态博客，不是同一个库*
+
 
 ## 总结
 至此，大部分内容就是这些了。可能会有遗漏。剩下的，就是使用markdown写文章了，我还在边写边学的阶段，努力，后续小细节的东西慢慢补充。推荐一款markdown编辑软件: [haroopad](http://pad.haroopress.com/)，免费的。
