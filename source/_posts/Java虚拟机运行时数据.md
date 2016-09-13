@@ -57,4 +57,4 @@ Java虚拟机管理的内存包括如下几个数据区域，
 
 直接内存（Direct Memory），不属于虚拟机运行时数据区。分配受到机器内存限制，会导致OutOfMemoryError异常。
 
-参考文献[深入理解Java虚拟机](), [Java官方文档](https://docs.oracle.com/javase/specs/jvms/se7/html/jvms-2.html)。
+参考文献[深入理解Java虚拟机](https://book.douban.com/subject/24722612/), [Java官方文档](https://docs.oracle.com/javase/specs/jvms/se7/html/jvms-2.html)。
