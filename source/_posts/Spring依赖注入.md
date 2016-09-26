@@ -8,7 +8,7 @@ categories: Spring
 toc: true
 ---
 
-Java，发展20多年至今，已经占领企业级开发，Java自己提供的JavaEE标准中，EJB定义过于复杂，自入行业以来木有做过相应的开发，然后Spring却一直在使用，所有Spring作为Java学习的一条主线，进行系统性的整理，归纳。
+Java，发展20多年至今，已经占领企业级开发，Java自己提供的JavaEE标准中，EJB定义过于复杂，自入行业以来木有做过相应的开发，然后Spring却一直在使用，所以Spring作为Java学习的一条主线，进行系统性的整理，归纳。
 
 ## 介绍
 
@@ -88,7 +88,7 @@ Bean扫描
 
 ### XML还是Annotation
 
-个人倾向与注解，去XML化。
+个人倾向于注解，去XML化。
 
 ### 待办事项
 
