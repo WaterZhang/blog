@@ -75,7 +75,11 @@ Bean扫描
 <context:component-scan base-package=""/>
 ```
 
-要想使@Autowired生效，需要在XML中添加context namespace，并加上<context:annotation-config/>
+要想使@Autowired生效，需要在XML中添加context namespace，并加上
+```
+<context:annotation-config/>
+```
+
 如果同一个接口，声明了两个或多个实现类，并注解使用，那么使用@Autowired时，会返回的是一个数组，所以可能会抛出异常，可以用一个数组来接受。当然，这应该不是我们想要的。在@Autowired后加上指定标识名，然后加上@Qualifier。
 
 ### 修改Spring的Bean名字生成策略
