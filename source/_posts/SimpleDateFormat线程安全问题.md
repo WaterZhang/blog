@@ -9,7 +9,7 @@ categories:
 toc: true
 ---
 
-项目运行时间，SimpleDateFormat使用出现了异常，刚开始并没有太在意。但是或多或少会有业务影响，查询了一下，发现SimpleDateFormat是线程非安全的，抽空试了一下在多线程下使用它。
+项目运行期间，SimpleDateFormat使用出现了异常，刚开始并没有太在意。但是或多或少会有业务影响，查询了一下，发现SimpleDateFormat是线程非安全的，抽空试了一下在多线程下使用它。
 
 ## SimpleDateFormat.format
 
