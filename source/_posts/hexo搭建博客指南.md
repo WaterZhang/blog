@@ -33,7 +33,7 @@ github有[参考教程](https://pages.github.com/)，简单来说，创建一个
 ## 设置SSH
 创建git的ssh key，参照[这里](https://help.github.com/articles/generating-an-ssh-key/)。我提供的都是官网的帮助文档，当然百度也会有相关的信息。
 生成key后，将其放入当前用户的.ssh/文件夹下面
-![](http://photos.zhangzemiao.com/ssh_position.jpg
+![](http://photos.zhangzemiao.com/ssh_position.jpg)
 
 将创建的public key添加至github pages项目，记得包括read和write权限。
 
