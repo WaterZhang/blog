@@ -8,11 +8,11 @@ categories: Spring
 toc: true
 ---
 
-Java，发展20多年至今，已经占领企业级开发，Java自己提供的JavaEE标准中，EJB定义过于复杂，自入行业以来木有做过相应的开发，然后Spring却一直在使用，所以Spring作为Java学习的一条主线，进行系统性的整理，归纳。
+Java，发展20多年至今，已经占领企业级开发，Java自己提供的JavaEE标准中，EJB定义过于复杂，自入行业以来木有做过相应的开发，然后Spring却一直在使用，所以将Spring作为Java学习的一条主线，进行系统性的整理，归纳。
 
 ## 介绍
 
-Spring对照EJB，相对简化的开发平台，但是[Spring](http://spring.io/)不是一个简单的框架，可以说是一个很大的框架级。核心思想，是基于POJOs的容器，支持依赖注入，各种templates模版，AOP编程，集成很多第三方流行框架。
+Spring对照EJB，相对简化的开发平台，但是[Spring](http://spring.io/)不是一个简单的框架，可以说是一个很大的框架集。核心思想，是基于POJOs的容器，支持依赖注入，各种templates模版，AOP编程，集成很多第三方流行框架。
 
 ## Spring主要框架
 
