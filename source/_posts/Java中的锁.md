@@ -21,6 +21,23 @@ try{
 ｝
 ***
 
+Lock接口声明的方法：
+- void lock()，阻塞获取锁。
+- void lockInterruptibly() throws InterruptedException，阻塞获取锁，但是支持中断，如果线程中断，也可返回，抛出InterruptedException。
+- boolean tryLock()，非阻塞获取锁，能立马获取锁，则返回true，不能立马获取锁，立刻返回false。
+- boolean tryLock(long time, TimeUnit unit) throws InterruptedException，非阻塞，超时等待获取锁，支持中断返回（抛异常）。
+- void unlock()，释放锁。
+- Condition newCondition()，创建与该锁绑定的条件对象。
+
+
+Lock接口，在Java 1.8中有5个实现类，
+- ReentrantLock
+- ReentrantReadWriteLock.ReadLock
+- ReentrantReadWriteLock.WriteLock
+- StampedLock.ReadLockView
+- StampedLock.WriteLockView
+
+
 ## 队列同步器
 **AbstractQueuedSynchronized**，用来构建锁和其他同步组建的基础框架，int变量表示同步状态，内置FIFO队列完成资源获取线程排队工作。
 
