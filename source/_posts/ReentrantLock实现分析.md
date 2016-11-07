@@ -38,9 +38,21 @@ NonfairSync和FairSync继承于Sync内部类，分别对应非公平策略和公
 直接调用AQS的acquireInterruptibly(1)方法，先判断是否中断，已中断则抛出异常。回调tryAcquire方法，再调Sync.nonfairTryAcquire方法，做两件事情，一拿锁状态，没锁则锁了，并返回。二锁了，判断当前线程是否为锁线程，是则更新状态，返回。这两件事都不成，则返回false。回到AQS的acquireInterruptibly方法，调用doAcquireInterruptibly(1)，最终调用LockSupport的park方法，阻塞线程。
 ![](http://photos.zhangzemiao.com/blog_reentrant4.jpg)
 4. tryLock()调用过程
+直接调用Sync.nonfairTryAcquire方法，这方法的功能，上面已介绍。
 5. tryLock(long , TimeUnit)调用过程
+调用AQS的tryAcquireNanos方法，支持中断。回调tryAcquire(1)方法，再调nonfairTryAcquire(1)方法，已介绍此方法。如果获取锁失败，tryAcquire返回false，调用AQS的doAcquireNanos方法，这里会设置基于传入的时间长度，设置deadline。最终会调用LockSupport.parkNanos方法，超时阻塞线程。4种方法唤醒该线程，其他线程调用unpark，其他线程中断此线程，等待足够的时间，spuriously return(no reason)这是API的说明，不是太懂。
 6. unlock()调用过程
+调用AQS的release(1)方法，再回调Sync.tryRelease(1)方法，如果释放锁的线程与占有锁的线程不一致，抛IllegalMonitorStateException异常。清除当前占有锁线程，CAS锁状态。释放成功，调用AQS的unparkSuccessor()方法。
 7. newCondition()调用
+调用Sync.newCondition方法，创建ConditionObject对象。
 
-未完待续。。。
+公平方式的实现，
+1. lock()方法调用过程
+调用FairSync的lock方法，再调AQS的acquire(1)方法，回调FairSync.tryAcquire(1)方法，做两件事，一是发未锁且当前线程和AQS阻塞的队列的第一个阻塞线程为同一线程，则cas锁状态，返回true。二是已锁且当前线程和锁线程是同一个，cas锁状态（允许重入），返回true。两件事都不满足，则返回false。当返回false时，调用acquireQueued方法，上面非公平锁已介绍，调用LockSupport.park阻塞线程。
+2. unlock()方法调用过程
+跟非公平锁实现一样。
+
+公平锁和非公平锁的区别在于tryAcquire()方法，不在详细描述。至于未说明的细节，比如AQS维护阻塞队列的代码，看得不是很明白。至此ReentrantLock的大部分源码已经研究了一片。核心还是AQS，所以需要花时间和心思研究AQS。
+
+
 
