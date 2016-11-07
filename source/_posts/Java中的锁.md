@@ -59,13 +59,13 @@ isHeldExclusively()
 - 新阻塞的线程通过CAS操作插入队尾
 
 独占式同步状态获取和释放，
-这里需要补上代码分析。。。
+[ReentrantLock实现分析](/Java并发编程/ReentrantLock实现分析)
 
 共享式同步状态获取和释放，
 这里需要补上代码分析。。。
 
 独占式超时获取同步状态
-这里需要补上代码分析。。。
+[ReentrantLock实现分析](/Java并发编程/ReentrantLock实现分析)
 
 ## 重入锁ReentrantLock
 支持重进入的锁，表示一个线程对资源的重复加锁，支持公平和非公平两种模式，默认为非公平。
