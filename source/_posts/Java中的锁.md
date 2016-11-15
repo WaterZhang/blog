@@ -62,7 +62,7 @@ isHeldExclusively()
 [ReentrantLock实现分析](/Java并发编程/ReentrantLock实现分析)
 
 共享式同步状态获取和释放，
-这里需要补上代码分析。。。
+[ReentrantReadWriteLock实现分析](/Java并发编程/ReentrantReadWriteLock实现分析)
 
 独占式超时获取同步状态
 [ReentrantLock实现分析](/Java并发编程/ReentrantLock实现分析)
