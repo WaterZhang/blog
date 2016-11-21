@@ -28,4 +28,28 @@ The POSIX version of Redis uses the fork() API. There is no equivalent in Window
 
 ### Jedis
 [Jedis](https://github.com/xetorthio/jedis)是官方推荐的。
+导入Jedis最新版本[2.9.0](https://github.com/xetorthio/jedis/releases)，写了一个简单的用例代码，
+~~~java
+public class Test {
+
+private static JedisPool pool = new JedisPool(new JedisPoolConfig(), "localhost");
+
+    public static void main(String[] args) {
+
+        try (Jedis jedis = pool.getResource()) {
+            /// ... do stuff here ... for example
+            jedis.set("foo", "bar");
+            String foobar = jedis.get("foo");
+            System.out.println(foobar);
+            jedis.zadd("sose", 0, "car");
+            jedis.zadd("sose", 0, "bike");
+            Set<String> sose = jedis.zrange("sose", 0, -1);
+            System.out.println(sose);
+        }
+        /// ... when closing your application:
+        pool.destroy();
+
+    }
+}
+~~~
 
