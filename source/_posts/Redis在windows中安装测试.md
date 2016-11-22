@@ -1,7 +1,7 @@
 ---
 title: Redis在windows中安装测试
 date: 2016-11-17 10:59:54
-tags: Redis 分布式缓存
+tags: Redis 缓存
 categories:
 - Redis
 toc: true
