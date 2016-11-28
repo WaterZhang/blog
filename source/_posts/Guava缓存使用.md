@@ -5,7 +5,6 @@ tags:
 - Java
 - 缓存
 categories:
-- guava
 - 缓存
 toc: true
 ---
