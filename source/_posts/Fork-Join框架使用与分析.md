@@ -8,10 +8,12 @@ categories:
 - Java并发编程
 ---
 
-Fork/Join框架，用来解决大任务，而大任务可以分解成小任务，去执行小任务，合并结果。
+Fork/Join框架，用来解决某些特定任务，而这些任务可以分解成小任务，去执行小任务，合并结果。
 
 ## 样例一
+价格更新，mock批量的价格类（Product），然后创建任务Task（继承RecursiveAction），将Task由ForkJoinPool执行，更新价格。
 
+### 样例代码
 Product类
 ~~~java
 public class Product {
@@ -124,3 +126,113 @@ public static void main(String[] args) {
 }
 ~~~
 
+### 源码分析
+
+ForkJoinPool
+#### 默认构造
+并行度：最大为32767（MAX_CAP），最小是运行CPU个数。
+使用默认的线程工厂
+异常处理，默认为null，没有处理
+异步模式， true为FIFO，false为LIFO。背后的含义要分析。
+
+~~~java
+public ForkJoinPool() {
+    this(Math.min(MAX_CAP, Runtime.getRuntime().availableProcessors()),
+         defaultForkJoinWorkerThreadFactory, null, false);
+}
+~~~
+
+#### 任务执行
+ForkJoinPool提供execute方法，添加任务并执行。此为ForkJoinPool也是Executor，提供submit方法，支持ForkJoinTask和Runnable（Runnable包装成ForkJoinTask）两种task。
+创建好ForkJoinPool后，就可以提交任务执行了。那么提交任务的逻辑中包括的初始化。
+
+~~~java
+public void execute(ForkJoinTask<?> task) {
+    if (task == null)
+        throw new NullPointerException();
+    externalPush(task);
+}
+~~~
+
+调用逻辑，ForkJoinPool.execute(task) --> externalPush(task) --> externalSubmit(task)。业务代码都集中在externalSubmit方法中。runState如果小于0，意味着ForkJoinPool已被终止，不接受任务了，抛出异常。
+~~~java
+if ((rs = runState) < 0) {
+    tryTerminate(false, false);
+    throw new RejectedExecutionException();
+}
+~~~
+
+如果runState是0，说明未初始化，进行初始化，创建workQueues。workQueues的大小是CPU个数的两倍（自己根据代码算是这样的，不能保证正确）。
+**这里只进行workQueues数组的初始化，提交的task还没处理。**
+~~~java
+else if ((rs & STARTED) == 0 ||     // initialize
+         ((ws = workQueues) == null || (m = ws.length - 1) < 0)) {
+    int ns = 0;
+    //先锁上RSLOCK，通过Unsafe的CAS，锁上标记位RSLOCK
+    rs = lockRunState();
+    try {
+    	//判断是否已经初始化，正常（不考虑并发）情况是0。
+        if ((rs & STARTED) == 0) {
+            U.compareAndSwapObject(this, STEALCOUNTER, null,
+                                   new AtomicLong());
+            // create workQueues array with size a power of two
+            //默认情况，P是当前主机CPU单元的个数
+            int p = config & SMASK; // ensure at least 2 slots
+            int n = (p > 1) ? p - 1 : 1;
+            n |= n >>> 1; n |= n >>> 2;  n |= n >>> 4;
+            n |= n >>> 8; n |= n >>> 16; n = (n + 1) << 1;
+            //自己算了下，如果CPU是4个，那么队列的size是8。
+            workQueues = new WorkQueue[n];
+            ns = STARTED;
+        }
+    } finally {
+    	//unlock方法会更新runState, runState为4
+        unlockRunState(rs, (rs & ~RSLOCK) | ns);
+    }
+}
+~~~
+
+externalSubmit方法中，弄了个死循环，所以逻辑还得继续走。再进行runState的状态判断逻辑。
+如果runState还是为0，初始化一个WorkQueue。
+~~~java
+else if (((rs = runState) & RSLOCK) == 0) {
+	// create new queue
+    q = new WorkQueue(this, null);
+    q.hint = r;
+    q.config = k | SHARED_QUEUE;
+    q.scanState = INACTIVE;
+    rs = lockRunState();           // publish index
+    if (rs > 0 &&  (ws = workQueues) != null &&
+        k < ws.length && ws[k] == null)
+        ws[k] = q;                 // else terminated
+    unlockRunState(rs, rs & ~RSLOCK);
+}
+~~~
+
+最后一种情况，当workQueus数组的指定下标()不为null，将task放入这个WorkQueue。
+~~~java
+//为嘛是k = r & m & SQMASK，再研究
+else if ((q = ws[k = r & m & SQMASK]) != null) {
+    if (q.qlock == 0 && U.compareAndSwapInt(q, QLOCK, 0, 1)) {
+        ForkJoinTask<?>[] a = q.array;
+        int s = q.top;
+        boolean submitted = false; // initial submission or resizing
+        try {                      // locked version of push
+            if ((a != null && a.length > s + 1 - q.base) ||
+                (a = q.growArray()) != null) {
+                int j = (((a.length - 1) & s) << ASHIFT) + ABASE;
+                U.putOrderedObject(a, j, task);
+                U.putOrderedInt(q, QTOP, s + 1);
+                submitted = true;
+            }
+        } finally {
+            U.compareAndSwapInt(q, QLOCK, 1, 0);
+        }
+        if (submitted) {
+            signalWork(ws, q);
+            return;
+        }
+    }
+    move = true;                   // move on failure
+}
+~~~
