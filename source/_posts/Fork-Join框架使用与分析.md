@@ -63,10 +63,13 @@ public class Task extends RecursiveAction {
 	    this.increment=increment;
 	  }
 
+	//Task被调度的方法，这里有拆分任务的逻辑
 	@Override
 	protected void compute() {
+    	//直接计算
 		if (last - first < 10) {
 			updatePrices();
+        //拆解任务
 		} else {
 			int middle = (last + first) / 2;
 			System.out.printf("Task: Pending tasks: %s\n", getQueuedTaskCount());
@@ -134,11 +137,26 @@ ForkJoinPool
 使用默认的线程工厂
 异常处理，默认为null，没有处理
 异步模式， true为FIFO，false为LIFO。背后的含义要分析。
+ctl字段，在成功添加任务后，需要这个字段来做判断。如果并行度为4，ctl则为一个负数（-844442110001152）。
 
 ~~~java
 public ForkJoinPool() {
     this(Math.min(MAX_CAP, Runtime.getRuntime().availableProcessors()),
          defaultForkJoinWorkerThreadFactory, null, false);
+}
+
+private ForkJoinPool(int parallelism,
+                         ForkJoinWorkerThreadFactory factory,
+                         UncaughtExceptionHandler handler,
+                         int mode,
+                         String workerNamePrefix) {
+    this.workerNamePrefix = workerNamePrefix;
+    this.factory = factory;
+    this.ueh = handler;
+    this.config = (parallelism & SMASK) | mode;
+    long np = (long)(-parallelism); // offset ctl counts
+    //这里，将ctl初始化为一个负数，这个负数转换成int后，是0。这数学的设计。。。
+    this.ctl = ((np << AC_SHIFT) & AC_MASK) | ((np << TC_SHIFT) & TC_MASK);
 }
 ~~~
 
@@ -213,12 +231,14 @@ else if (((rs = runState) & RSLOCK) == 0) {
 ~~~java
 //为嘛是k = r & m & SQMASK，再研究
 else if ((q = ws[k = r & m & SQMASK]) != null) {
+	//给当前的队列加锁
     if (q.qlock == 0 && U.compareAndSwapInt(q, QLOCK, 0, 1)) {
         ForkJoinTask<?>[] a = q.array;
         int s = q.top;
         boolean submitted = false; // initial submission or resizing
         try {                      // locked version of push
             if ((a != null && a.length > s + 1 - q.base) ||
+            	//growArray方法进行initial或者双倍扩容
                 (a = q.growArray()) != null) {
                 int j = (((a.length - 1) & s) << ASHIFT) + ABASE;
                 U.putOrderedObject(a, j, task);
@@ -228,6 +248,7 @@ else if ((q = ws[k = r & m & SQMASK]) != null) {
         } finally {
             U.compareAndSwapInt(q, QLOCK, 1, 0);
         }
+        //如果task成功提交，会尝试启动worker，来看看是怎么设计的
         if (submitted) {
             signalWork(ws, q);
             return;
@@ -236,3 +257,42 @@ else if ((q = ws[k = r & m & SQMASK]) != null) {
     move = true;                   // move on failure
 }
 ~~~
+
+signalWork方法，添加task成功后调用。tryAddWorker方法会创建一个ForkJoinWorkerThread，并绑定这个ForkJoinPool和其中的一个队列WorkQueue。
+~~~java
+final void signalWork(WorkQueue[] ws, WorkQueue q) {
+    long c; int sp, i; WorkQueue v; Thread p;
+    //这里初始化后的ctl是个负数，但是转换成int后，变成0，很巧的数学设计
+    while ((c = ctl) < 0L) {                       // too few active
+        if ((sp = (int)c) == 0) {                  // no idle workers
+            if ((c & ADD_WORKER) != 0L)            // too few workers
+                //初始状态，会调用这个方法，调用完退出
+                tryAddWorker(c);
+            break;
+        }
+        if (ws == null)                            // unstarted/terminated
+            break;
+        if (ws.length <= (i = sp & SMASK))         // terminated
+            break;
+        if ((v = ws[i]) == null)                   // terminating
+            break;
+        int vs = (sp + SS_SEQ) & ~INACTIVE;        // next scanState
+        int d = sp - v.scanState;                  // screen CAS
+        long nc = (UC_MASK & (c + AC_UNIT)) | (SP_MASK & v.stackPred);
+        if (d == 0 && U.compareAndSwapLong(this, CTL, c, nc)) {
+            v.scanState = vs;                      // activate v
+            if ((p = v.parker) != null)
+                U.unpark(p);
+            break;
+        }
+        if (q != null && q.base == q.top)          // no more work
+            break;
+    }
+}
+~~~
+
+## 总结
+回到最初的使用ForkJoinPool的代码，new一个，然后execute添加任务。我们分析了ForkJoinPool初始化过程。但是具体的执行，要在继续分析，看源码。
+
+### 遗留问题
+理解ThreadLocalRandom.getProbe()和ThreadLocalRandom.advanceProbe(r)的使用，这个方法并非公开的API。
