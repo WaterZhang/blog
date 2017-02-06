@@ -1,5 +1,5 @@
 ---
-title: Java并发编程
+title: Java并发编程指南
 toc: true
 date: 2017-12-01 00:00:00
 tags:

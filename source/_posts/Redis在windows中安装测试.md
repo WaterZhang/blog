@@ -1,7 +1,8 @@
 ---
 title: Redis在windows中安装测试
 date: 2016-11-17 10:59:54
-tags: Redis 缓存
+tags:
+- NOSQL
 categories:
 - Redis
 toc: true
