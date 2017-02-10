@@ -15,11 +15,13 @@ Redis，内存分布式数据库，支持5种数据类型（不确定），提�
 
 ### 数据库比较
 | 数据库 | 类型 | 数据存储 | 查询类型 | 额外功能 |
+|-------|-----|---------|--------|---------|
 | Redis | 内存非关系型 | String，List，Set，Hash，Sorted Set | CURD，批量处理，部分事务支持 | 订阅/取消服务 主从复制 |
 | memcached | 内存非关系型 | mapping key to value | CURD | 并发集群服务 |
 | mysql | 关系型 | 常用数据 | CURD，sp | ACID，主从结构 |
 | PostgreSQL | 关系型 | 常用数据 | CURD，sp | ACID，主从结构，第三方扩展 |
 | MongoDB | 磁盘非关系型文件存储 | BSON documents | CURD | map-redusce，主从，集群 |
+
 
 ### Redis数据同步
 Redis有两种同步方式，将内存数据备份至磁盘：
