@@ -93,7 +93,7 @@ redis-check-dump dump.rdb，恢复dump数据，目前还没提供命令工具帮
 例如，A，B作为Redis服务器运行。A是Master，B是Slave。不幸地，A机器网络出现问题，现在要用C，来作为新的Master，怎么做，
 
 1. 告诉B，执行Save命令，生成最新的snapshot。
-2. snapshot完成后，启动C。
+2. snapshot完成后，启动C，加载snapshot。
 3. 告诉B，成为C的Slave。
 
 还有一个可选方法，将B作为Master，C作为B的Slave。
