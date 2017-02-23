@@ -2,7 +2,7 @@
 title: hexo搭建博客指南
 date: 2016-09-06 10:29:08
 tags: hexo
-categories: hexo搭建博客教程
+categories: hexo
 toc: true
 ---
 
