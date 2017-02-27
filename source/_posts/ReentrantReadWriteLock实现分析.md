@@ -33,9 +33,11 @@ ReentrantReadWriteLock，顾名思义，支持重入，支持读锁和写锁。
 - 如果阻塞，还会调用ReentrantReadWriteLock.Sync.fullTryAcquireShared方法，再次尝试获取一次。有写锁且非已获锁线程，则返回。这里类中使用了HoldCounter+ThreadLock，每个读线程都有个HoldCounter，记录一个count，当这个count为0时，readerShouldBlock()阻塞后，不会cas。但是如果count不为0，只要不超过Max Count。会继续cas操作，并更新HoldCount对象。
 
 ## 读锁释放分析
+
 第一个读锁线程会单独处理。获取当前线程的HoldCounter，count减一，cas(c-SHARED_UNIT)。
 
 ## 写锁获取分析
+
 都是套路，跟ReentrantLock一样，调用AQS的acquire(1)方法，再回调ReentrantReadWriteLock.Sync.tryAcquire(1)方法，如果锁状态不为0，
 - 有读锁，且无写锁，返回false。
 - 有写锁且非已获锁线程，返回false。

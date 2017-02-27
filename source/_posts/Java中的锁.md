@@ -78,7 +78,7 @@ isHeldExclusively()
 高段位读，低段位写。
 
 ## LockSupport
-park()，阻塞当前县城，如果调用unpark方法或者中断当前线程，才能从park方法返回。
+park()，阻塞当前线程，如果调用unpark方法或者中断当前线程，才能从park方法返回。
 parkNanos(long nanos)，阻塞当前线程，最长不超过nanos纳秒，在park方法返回条件基础上，加上超时返回。
 parkUntil(long deadline)，阻塞当前线程，直到deadline时间。
 unpark(Thread thread)，唤醒出于阻塞的线程。

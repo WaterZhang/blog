@@ -20,6 +20,7 @@ Lock接口声明的方法：
 
 ![](http://photos.zhangzemiao.com/blog_reentrant1.jpg)
 
+
 Sync是ReentrantLock类中定义的静态抽象内部类(abstract static Sync extends AbstractQueuedSynchronizer)，并且有两个实现的子类（静态内部类），分别对应着公平锁的实现（FairSync）和非公平锁的实现（NonFairSync）。同时有两个构造函数，对应着两个锁，无参构造是默认的非公平锁，带boolean的构造函数，true为公平锁，false为非公平锁。类似代理模式还是装饰者模式？（后续回顾设计模式时，解疑！）。
 ReentrantLock.lock -> 成员变量sync.lock() -> FairSync.lock() | NonfairSync.lock()。
 
