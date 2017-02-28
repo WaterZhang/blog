@@ -1,5 +1,5 @@
 ---
-title: Redis数据存储问题
+title: Redis数据存储与复制
 toc: true
 date: 2017-02-17 16:38:26
 tags:
@@ -63,13 +63,14 @@ slaveof no one，停止主从关系。
 ### 复制步骤
 
 复制过程，
-| 步骤 | Master | Slave |
-|--------|--------|--------|
-|  1 | 等待命令| connect to master,发出SYNC命令（内部命令） |
-| 2 | 开始BGSAVE操作 | 用旧数据提供服务或者返回error（根据配置）|
-|3| 完成BGSAVE操作，开始给slave发送snapshot|抛弃旧数据，开始加载收到的dump文件 |
-|4|完成snapshot发送，开始发送写命令的backlog给slave|完成dump解析，开始正常响应请求|
-|5|完成backlog发送，开始实时写操作流|完成写操作的backlog执行，收到写操作流，继续执行同步|
+
+| 步骤   | Master | Slave |
+|--------|--------| ------- |
+|    1  |  等待命令      |	connect to master,发出SYNC命令（内部命令）		|
+|	 2  |	开始BGSAVE操作	  |	用旧数据提供服务或者返回error（根据配置）		|
+|	3 |	完成BGSAVE操作，开始给slave发送snapshot	  |	抛弃旧数据，开始加载收到的dump文件		|
+|	 4	 |	完成snapshot发送，开始发送写命令的backlog给slave	  |	完成dump解析，开始正常响应请求		|
+|	5	 |	完成backlog发送，开始实时写操作流	  |	完成写操作的backlog执行，收到写操作流，继续执行同步		|
 
 通常情况，我们需要考虑Master服务器的内存使用情况，建议内存使用率不要超过50%-65%，要预留足够的空间给服务器执行BGSAVE和backlog命令。还有Redis不支持Master-Master复制。
 
