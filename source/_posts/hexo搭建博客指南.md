@@ -22,10 +22,10 @@ toc: true
 验证安装成功与否：
 git
 
-![](http://photos.zhangzemiao.com/git_version_2.png)
+![](http://od0tim0m3.bkt.clouddn.com/git_version_2.png)
 node.js
 
-![](http://photos.zhangzemiao.com/npm_version.png)
+![](http://od0tim0m3.bkt.clouddn.com/npm_version.png)
 
 ## 创建github pages
 github有[参考教程](https://pages.github.com/)，简单来说，创建一个[username].github.io，然后新建一个index.html页面，这样就可以使用这个github提供给你的域名username.github.io,来访问。
@@ -33,11 +33,11 @@ github有[参考教程](https://pages.github.com/)，简单来说，创建一个
 ## 设置SSH
 创建git的ssh key，参照[这里](https://help.github.com/articles/generating-an-ssh-key/)。我提供的都是官网的帮助文档，当然百度也会有相关的信息。
 生成key后，将其放入当前用户的.ssh/文件夹下面
-![](http://photos.zhangzemiao.com/ssh_position.jpg)
+![](http://od0tim0m3.bkt.clouddn.com/ssh_position.jpg)
 
 将创建的public key添加至github pages项目，记得包括read和write权限。
 
-![](http://photos.zhangzemiao.com/%E6%B7%BB%E5%8A%A0KEY.jpg)
+![](http://od0tim0m3.bkt.clouddn.com/%E6%B7%BB%E5%8A%A0KEY.jpg)
 
 设置完毕，后续就可以直接将hexo的静态博客deploy该github库。
 
@@ -46,7 +46,7 @@ github有[参考教程](https://pages.github.com/)，简单来说，创建一个
 举一个例子说明吧：
 - 在D盘目录下创建一个blog文件夹
 - CMD指向该目录
-![](http://photos.zhangzemiao.com/blog_directory.jpg)
+![](http://od0tim0m3.bkt.clouddn.com/blog_directory.jpg)
 - 执行"npm install -g hexo-cli"
 - 执行"hexo init"，这样初始的blog基本创建好了。[这里](https://hexo.io/docs/setup.html)有相关文件和文件夹说明
 
@@ -72,11 +72,11 @@ $ npm install hexo-renderer-sass --save
 
 CNAME配置：
 
-![](http://photos.zhangzemiao.com/DNS.jpg)
+![](http://od0tim0m3.bkt.clouddn.com/DNS.jpg)
 
 添加CNAME文件至source目录，CNMAE文件中写上你购买的域名:
 
-![](http://photos.zhangzemiao.com/CNAME_FOLDER.jpg)
+![](http://od0tim0m3.bkt.clouddn.com/CNAME_FOLDER.jpg)
 
 hexo每次部署，会清除github库里的所有东西，为了避免每次都要手动添加CNAME文件至库中，将CNAME文件放置source文件夹下。
 
@@ -94,15 +94,15 @@ hexo new page [页面名]
 ## 图库及CDN
 关于图库，网上推荐使用[七牛云](https://portal.qiniu.com)，我刚使用赶脚很好，免费就是好呀。把图片放在七牛云上，然后文章外链使用。
 
-![](http://photos.zhangzemiao.com/tuku.jpg)
+![](http://od0tim0m3.bkt.clouddn.com/tuku.jpg)
 
 在七牛云的账号中，冲入10元，便可以使用CND了。刚刚客户还打电话过来回访，询问我，为嘛使用七牛云。。。
 - 自定义域名
-![](http://photos.zhangzemiao.com/blog_cnd.jpg)
+![](http://od0tim0m3.bkt.clouddn.com/blog_cnd.jpg)
 - 等待七牛云创建CNAME
-![](http://photos.zhangzemiao.com/blog_qiniuyun_cname.jpg)
+![](http://od0tim0m3.bkt.clouddn.com/blog_qiniuyun_cname.jpg)
 - 配置自定义域名至七牛云的CNAME(我使用的是阿里云)
-![](http://photos.zhangzemiao.com/blog_photos_cnd.jpg)
+![](http://od0tim0m3.bkt.clouddn.com/blog_photos_cnd.jpg)
 
 *注意：配置CNAME时，填写七牛云CNAME值时，后面补上一个"."。*
 
