@@ -9,7 +9,7 @@ date: 2018-06-18 00:14:07
 - 姓名: 张泽淼
 - 学校：[南华大学](http://www.usc.edu.cn/)
 - 工作: 酱油工，Java码农
-- 公司：[Expedia](www.expedia.com)
+- 公司：[Expedia](https://www.expedia.com)
 - 兴趣：旅行，LOL，看书，发呆
 
 关于博客
