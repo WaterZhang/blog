@@ -1,19 +1,23 @@
 ---
-title: 它虐我千百遍，我待它如初恋
+title: 在电影中寻找爱情
 date: 2018-06-18 14:00:00
 ---
 
-2018年阅读清单
+**给小惠**
 
-| 书名 | 初评 |
-|--------|--------|
-|  [Java微服务实战](https://book.douban.com/subject/27202670/)    | 实战性指导书籍，Spring Boot为主导的微服务技术实践  |
+好的电影
+
+| 电影名 | 推荐 | 资源 |
+|--------|--------|--------|
+|  [傲慢与偏见](https://movie.douban.com/subject/1418200/)    | 英式爱情,浪漫  |  [腾讯视频.会员](https://v.qq.com/x/cover/dchep5ox42l26i9.html?ptag=baidu.aladdin.movie.pay) |
+| [情书](https://movie.douban.com/subject/1292220/) | [岩井俊二](https://baike.baidu.com/item/%E5%B2%A9%E4%BA%95%E4%BF%8A%E4%BA%8C/1247878?fr=aladdin)的代表作，纯纯的暗恋 | [优酷](https://v.youku.com/v_show/id_XMzE1NTcxOTcy.html) |
+| 纪实72小时(中国版) | 陈晓卿离开CCTV后，监制作品，看了第一集，真实的生活，感觉还可以，推荐 | [腾讯](https://v.qq.com/x/cover/814qe0slfkkskwk.html)
 
 
-推荐阅读过的
+好的书籍
 
 | 书名  | 书评 |
 |--------|--------|
-| [跃迁-从技术到管理的硅谷路径](https://book.douban.com/subject/30198038/) | 上班的公交车上和地铁上，把这本书看完的。从技术人的角度，讲述个人发展，Lead Responsibility以及工作中遇到的各种问题，难题，并给出了自己的建议，推荐。 |
-| [Head First Java](https://book.douban.com/subject/2000732/)  | 入门推荐，如果可以阅读英文，效果更好。相比Java编程思想，更加容易上手和理解。 |
+| [情书](https://book.douban.com/subject/3662001/) | 书有自己的味道，电影比书，更具感染力 |
+
 
