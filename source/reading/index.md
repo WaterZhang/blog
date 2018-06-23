@@ -7,7 +7,7 @@ date: 2018-06-18 14:00:00
 
 | 书名 | 初评 |
 |--------|--------|
-|  [Java微服务实战](https://book.douban.com/subject/27202670/)    | 实战性指导书籍，Spring Boot为主导的微服务技术实践  |
+|  [Java微服务实战](https://book.douban.com/subject/27202670/)    | 实战性指导书籍，Spring Boot为主导的微服务技术实践，不动手，立马就忘。一般般吧，不推荐。  |
 
 
 推荐阅读过的
